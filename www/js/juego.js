@@ -19,22 +19,22 @@ var app={
       game.physics.startSystem(Phaser.Physics.ARCADE);
 
       game.stage.backgroundColor = '#f27d0c';
-      game.load.image('bola', 'assets/bola.png');
+      game.load.image('bola', 'assets/bola.png');   /* a la imagen obtenida de los assets le asignamos nombre 'bola' */
       game.load.image('objetivo', 'assets/objetivo.png');
     }
 
     function create() {
-      scoreText = game.add.text(16, 16, puntuacion, { fontSize: '100px', fill: '#757676' });
+      scoreText = game.add.text(16, 16, puntuacion, { fontSize: '100px', fill: '#757676' });    /*añade un texto con el score (puntuacion) en pantalla  */
       
-      objetivo = game.add.sprite(app.inicioX(), app.inicioY(), 'objetivo');
+      objetivo = game.add.sprite(app.inicioX(), app.inicioY(), 'objetivo'); 
       bola = game.add.sprite(app.inicioX(), app.inicioY(), 'bola');
       
-      game.physics.arcade.enable(bola);
+      game.physics.arcade.enable(bola);   /* el motor arcade es el más sencillo para recrear leyes físicas */
       game.physics.arcade.enable(objetivo);
 
-      bola.body.collideWorldBounds = true;
+      bola.body.collideWorldBounds = true;  /*detecta la colisión con los bordes de la pantalla */
       bola.body.onWorldBounds = new Phaser.Signal();
-      bola.body.onWorldBounds.add(app.decrementaPuntuacion, this);
+      bola.body.onWorldBounds.add(app.decrementaPuntuacion, this);  /*  this=contexto  */
     }
 
     function update(){
@@ -42,11 +42,11 @@ var app={
       bola.body.velocity.y = (velocidadY * factorDificultad);
       bola.body.velocity.x = (velocidadX * (-1 * factorDificultad));
       
-      game.physics.arcade.overlap(bola, objetivo, app.incrementaPuntuacion, null, this);
+      game.physics.arcade.overlap(bola, objetivo, app.incrementaPuntuacion, null, this);  /* 'overlap' para detectar cuando la bola y el objetivo coinciden  */
     }
 
     var estados = { preload: preload, create: create, update: update };
-    var game = new Phaser.Game(ancho, alto, Phaser.CANVAS, 'phaser',estados);
+    var game = new Phaser.Game(ancho, alto, Phaser.CANVAS, 'phaser',estados);  /* línea import: donde especificamos el ancho, algo. el id 'phaser' del canvas y los estados del juego */
   },
 
   decrementaPuntuacion: function(){
@@ -66,7 +66,7 @@ var app={
     }
   },
 
-  inicioX: function(){
+  inicioX: function(){            /* iniciamos la bola y el objetivo con la f 'inicio' */
     return app.numeroAleatorioHasta(ancho - DIAMETRO_BOLA );
   },
 
@@ -74,7 +74,7 @@ var app={
     return app.numeroAleatorioHasta(alto - DIAMETRO_BOLA );
   },
 
-  numeroAleatorioHasta: function(limite){
+  numeroAleatorioHasta: function(limite){   /* con libreria 'math' redondeamos un num aleat * un limite dado, para q no salga de la pantalla*/
     return Math.floor(Math.random() * limite);
   },
 
